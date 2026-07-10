@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as StartASocialRouteImport } from './routes/start-a-social'
+import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as ClubsRouteImport } from './routes/clubs'
 import { Route as AboutRouteImport } from './routes/about'
@@ -20,6 +21,11 @@ import { Route as ClubsSlugRouteImport } from './routes/clubs.$slug'
 const StartASocialRoute = StartASocialRouteImport.update({
   id: '/start-a-social',
   path: '/start-a-social',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GalleryRoute = GalleryRouteImport.update({
+  id: '/gallery',
+  path: '/gallery',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EventsRoute = EventsRouteImport.update({
@@ -58,6 +64,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/clubs': typeof ClubsRouteWithChildren
   '/events': typeof EventsRouteWithChildren
+  '/gallery': typeof GalleryRoute
   '/start-a-social': typeof StartASocialRoute
   '/clubs/$slug': typeof ClubsSlugRoute
   '/events/$slug': typeof EventsSlugRoute
@@ -67,6 +74,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/clubs': typeof ClubsRouteWithChildren
   '/events': typeof EventsRouteWithChildren
+  '/gallery': typeof GalleryRoute
   '/start-a-social': typeof StartASocialRoute
   '/clubs/$slug': typeof ClubsSlugRoute
   '/events/$slug': typeof EventsSlugRoute
@@ -77,6 +85,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/clubs': typeof ClubsRouteWithChildren
   '/events': typeof EventsRouteWithChildren
+  '/gallery': typeof GalleryRoute
   '/start-a-social': typeof StartASocialRoute
   '/clubs/$slug': typeof ClubsSlugRoute
   '/events/$slug': typeof EventsSlugRoute
@@ -88,6 +97,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/clubs'
     | '/events'
+    | '/gallery'
     | '/start-a-social'
     | '/clubs/$slug'
     | '/events/$slug'
@@ -97,6 +107,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/clubs'
     | '/events'
+    | '/gallery'
     | '/start-a-social'
     | '/clubs/$slug'
     | '/events/$slug'
@@ -106,6 +117,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/clubs'
     | '/events'
+    | '/gallery'
     | '/start-a-social'
     | '/clubs/$slug'
     | '/events/$slug'
@@ -116,6 +128,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   ClubsRoute: typeof ClubsRouteWithChildren
   EventsRoute: typeof EventsRouteWithChildren
+  GalleryRoute: typeof GalleryRoute
   StartASocialRoute: typeof StartASocialRoute
 }
 
@@ -126,6 +139,13 @@ declare module '@tanstack/react-router' {
       path: '/start-a-social'
       fullPath: '/start-a-social'
       preLoaderRoute: typeof StartASocialRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gallery': {
+      id: '/gallery'
+      path: '/gallery'
+      fullPath: '/gallery'
+      preLoaderRoute: typeof GalleryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/events': {
@@ -199,6 +219,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   ClubsRoute: ClubsRouteWithChildren,
   EventsRoute: EventsRouteWithChildren,
+  GalleryRoute: GalleryRoute,
   StartASocialRoute: StartASocialRoute,
 }
 export const routeTree = rootRouteImport
