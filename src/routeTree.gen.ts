@@ -9,11 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as EventsRouteImport } from './routes/events'
 import { Route as ClubsRouteImport } from './routes/clubs'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ClubsSlugRouteImport } from './routes/clubs.$slug'
 
+const EventsRoute = EventsRouteImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ClubsRoute = ClubsRouteImport.update({
   id: '/clubs',
   path: '/clubs',
@@ -39,12 +45,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/clubs': typeof ClubsRouteWithChildren
+  '/events': typeof EventsRoute
   '/clubs/$slug': typeof ClubsSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/clubs': typeof ClubsRouteWithChildren
+  '/events': typeof EventsRoute
   '/clubs/$slug': typeof ClubsSlugRoute
 }
 export interface FileRoutesById {
@@ -52,24 +60,33 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/clubs': typeof ClubsRouteWithChildren
+  '/events': typeof EventsRoute
   '/clubs/$slug': typeof ClubsSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/clubs' | '/clubs/$slug'
+  fullPaths: '/' | '/about' | '/clubs' | '/events' | '/clubs/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/clubs' | '/clubs/$slug'
-  id: '__root__' | '/' | '/about' | '/clubs' | '/clubs/$slug'
+  to: '/' | '/about' | '/clubs' | '/events' | '/clubs/$slug'
+  id: '__root__' | '/' | '/about' | '/clubs' | '/events' | '/clubs/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   ClubsRoute: typeof ClubsRouteWithChildren
+  EventsRoute: typeof EventsRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/events': {
+      id: '/events'
+      path: '/events'
+      fullPath: '/events'
+      preLoaderRoute: typeof EventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/clubs': {
       id: '/clubs'
       path: '/clubs'
@@ -115,6 +132,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   ClubsRoute: ClubsRouteWithChildren,
+  EventsRoute: EventsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
