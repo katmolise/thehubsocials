@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as StartASocialRouteImport } from './routes/start-a-social'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as ClubsRouteImport } from './routes/clubs'
 import { Route as AboutRouteImport } from './routes/about'
@@ -16,6 +17,11 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as EventsSlugRouteImport } from './routes/events.$slug'
 import { Route as ClubsSlugRouteImport } from './routes/clubs.$slug'
 
+const StartASocialRoute = StartASocialRouteImport.update({
+  id: '/start-a-social',
+  path: '/start-a-social',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EventsRoute = EventsRouteImport.update({
   id: '/events',
   path: '/events',
@@ -52,6 +58,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/clubs': typeof ClubsRouteWithChildren
   '/events': typeof EventsRouteWithChildren
+  '/start-a-social': typeof StartASocialRoute
   '/clubs/$slug': typeof ClubsSlugRoute
   '/events/$slug': typeof EventsSlugRoute
 }
@@ -60,6 +67,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/clubs': typeof ClubsRouteWithChildren
   '/events': typeof EventsRouteWithChildren
+  '/start-a-social': typeof StartASocialRoute
   '/clubs/$slug': typeof ClubsSlugRoute
   '/events/$slug': typeof EventsSlugRoute
 }
@@ -69,6 +77,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/clubs': typeof ClubsRouteWithChildren
   '/events': typeof EventsRouteWithChildren
+  '/start-a-social': typeof StartASocialRoute
   '/clubs/$slug': typeof ClubsSlugRoute
   '/events/$slug': typeof EventsSlugRoute
 }
@@ -79,16 +88,25 @@ export interface FileRouteTypes {
     | '/about'
     | '/clubs'
     | '/events'
+    | '/start-a-social'
     | '/clubs/$slug'
     | '/events/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/clubs' | '/events' | '/clubs/$slug' | '/events/$slug'
+  to:
+    | '/'
+    | '/about'
+    | '/clubs'
+    | '/events'
+    | '/start-a-social'
+    | '/clubs/$slug'
+    | '/events/$slug'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/clubs'
     | '/events'
+    | '/start-a-social'
     | '/clubs/$slug'
     | '/events/$slug'
   fileRoutesById: FileRoutesById
@@ -98,10 +116,18 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   ClubsRoute: typeof ClubsRouteWithChildren
   EventsRoute: typeof EventsRouteWithChildren
+  StartASocialRoute: typeof StartASocialRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/start-a-social': {
+      id: '/start-a-social'
+      path: '/start-a-social'
+      fullPath: '/start-a-social'
+      preLoaderRoute: typeof StartASocialRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/events': {
       id: '/events'
       path: '/events'
@@ -173,6 +199,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   ClubsRoute: ClubsRouteWithChildren,
   EventsRoute: EventsRouteWithChildren,
+  StartASocialRoute: StartASocialRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
