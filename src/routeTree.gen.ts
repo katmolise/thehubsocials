@@ -18,6 +18,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as EventsSlugRouteImport } from './routes/events.$slug'
 import { Route as ClubsSlugRouteImport } from './routes/clubs.$slug'
+import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 
 const StartASocialRoute = StartASocialRouteImport.update({
   id: '/start-a-social',
@@ -64,26 +65,33 @@ const ClubsSlugRoute = ClubsSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => ClubsRoute,
 } as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => BlogRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/blog': typeof BlogRoute
+  '/blog': typeof BlogRouteWithChildren
   '/clubs': typeof ClubsRouteWithChildren
   '/events': typeof EventsRouteWithChildren
   '/gallery': typeof GalleryRoute
   '/start-a-social': typeof StartASocialRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/clubs/$slug': typeof ClubsSlugRoute
   '/events/$slug': typeof EventsSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/blog': typeof BlogRoute
+  '/blog': typeof BlogRouteWithChildren
   '/clubs': typeof ClubsRouteWithChildren
   '/events': typeof EventsRouteWithChildren
   '/gallery': typeof GalleryRoute
   '/start-a-social': typeof StartASocialRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/clubs/$slug': typeof ClubsSlugRoute
   '/events/$slug': typeof EventsSlugRoute
 }
@@ -91,11 +99,12 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/blog': typeof BlogRoute
+  '/blog': typeof BlogRouteWithChildren
   '/clubs': typeof ClubsRouteWithChildren
   '/events': typeof EventsRouteWithChildren
   '/gallery': typeof GalleryRoute
   '/start-a-social': typeof StartASocialRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/clubs/$slug': typeof ClubsSlugRoute
   '/events/$slug': typeof EventsSlugRoute
 }
@@ -109,6 +118,7 @@ export interface FileRouteTypes {
     | '/events'
     | '/gallery'
     | '/start-a-social'
+    | '/blog/$slug'
     | '/clubs/$slug'
     | '/events/$slug'
   fileRoutesByTo: FileRoutesByTo
@@ -120,6 +130,7 @@ export interface FileRouteTypes {
     | '/events'
     | '/gallery'
     | '/start-a-social'
+    | '/blog/$slug'
     | '/clubs/$slug'
     | '/events/$slug'
   id:
@@ -131,6 +142,7 @@ export interface FileRouteTypes {
     | '/events'
     | '/gallery'
     | '/start-a-social'
+    | '/blog/$slug'
     | '/clubs/$slug'
     | '/events/$slug'
   fileRoutesById: FileRoutesById
@@ -138,7 +150,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  BlogRoute: typeof BlogRoute
+  BlogRoute: typeof BlogRouteWithChildren
   ClubsRoute: typeof ClubsRouteWithChildren
   EventsRoute: typeof EventsRouteWithChildren
   GalleryRoute: typeof GalleryRoute
@@ -210,8 +222,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ClubsSlugRouteImport
       parentRoute: typeof ClubsRoute
     }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof BlogRoute
+    }
   }
 }
+
+interface BlogRouteChildren {
+  BlogSlugRoute: typeof BlogSlugRoute
+}
+
+const BlogRouteChildren: BlogRouteChildren = {
+  BlogSlugRoute: BlogSlugRoute,
+}
+
+const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
 
 interface ClubsRouteChildren {
   ClubsSlugRoute: typeof ClubsSlugRoute
@@ -237,7 +266,7 @@ const EventsRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  BlogRoute: BlogRoute,
+  BlogRoute: BlogRouteWithChildren,
   ClubsRoute: ClubsRouteWithChildren,
   EventsRoute: EventsRouteWithChildren,
   GalleryRoute: GalleryRoute,
