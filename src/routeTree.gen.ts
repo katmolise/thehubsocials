@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as ClubsRouteImport } from './routes/clubs'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ClubsSlugRouteImport } from './routes/clubs.$slug'
 
 const ClubsRoute = ClubsRouteImport.update({
   id: '/clubs',
@@ -28,35 +29,43 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ClubsSlugRoute = ClubsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => ClubsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/clubs': typeof ClubsRoute
+  '/clubs': typeof ClubsRouteWithChildren
+  '/clubs/$slug': typeof ClubsSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/clubs': typeof ClubsRoute
+  '/clubs': typeof ClubsRouteWithChildren
+  '/clubs/$slug': typeof ClubsSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/clubs': typeof ClubsRoute
+  '/clubs': typeof ClubsRouteWithChildren
+  '/clubs/$slug': typeof ClubsSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/clubs'
+  fullPaths: '/' | '/about' | '/clubs' | '/clubs/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/clubs'
-  id: '__root__' | '/' | '/about' | '/clubs'
+  to: '/' | '/about' | '/clubs' | '/clubs/$slug'
+  id: '__root__' | '/' | '/about' | '/clubs' | '/clubs/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  ClubsRoute: typeof ClubsRoute
+  ClubsRoute: typeof ClubsRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -82,13 +91,30 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/clubs/$slug': {
+      id: '/clubs/$slug'
+      path: '/$slug'
+      fullPath: '/clubs/$slug'
+      preLoaderRoute: typeof ClubsSlugRouteImport
+      parentRoute: typeof ClubsRoute
+    }
   }
 }
+
+interface ClubsRouteChildren {
+  ClubsSlugRoute: typeof ClubsSlugRoute
+}
+
+const ClubsRouteChildren: ClubsRouteChildren = {
+  ClubsSlugRoute: ClubsSlugRoute,
+}
+
+const ClubsRouteWithChildren = ClubsRoute._addFileChildren(ClubsRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  ClubsRoute: ClubsRoute,
+  ClubsRoute: ClubsRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

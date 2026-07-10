@@ -82,7 +82,7 @@ function ClubDetail() {
 
           {club.gallery.length > 0 && (
             <div className="mt-10 grid gap-4 sm:grid-cols-2">
-              {club.gallery.map((g, i) => (
+              {club.gallery.map((g: string, i: number) => (
                 <img key={i} src={g} alt="" className="aspect-[4/3] w-full rounded-3xl object-cover" />
               ))}
             </div>
