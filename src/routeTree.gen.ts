@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as StartASocialRouteImport } from './routes/start-a-social'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as EventsRouteImport } from './routes/events'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ClubsRouteImport } from './routes/clubs'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AboutRouteImport } from './routes/about'
@@ -33,6 +34,11 @@ const GalleryRoute = GalleryRouteImport.update({
 const EventsRoute = EventsRouteImport.update({
   id: '/events',
   path: '/events',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ClubsRoute = ClubsRouteImport.update({
@@ -76,6 +82,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/blog': typeof BlogRouteWithChildren
   '/clubs': typeof ClubsRouteWithChildren
+  '/contact': typeof ContactRoute
   '/events': typeof EventsRouteWithChildren
   '/gallery': typeof GalleryRoute
   '/start-a-social': typeof StartASocialRoute
@@ -88,6 +95,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/blog': typeof BlogRouteWithChildren
   '/clubs': typeof ClubsRouteWithChildren
+  '/contact': typeof ContactRoute
   '/events': typeof EventsRouteWithChildren
   '/gallery': typeof GalleryRoute
   '/start-a-social': typeof StartASocialRoute
@@ -101,6 +109,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/blog': typeof BlogRouteWithChildren
   '/clubs': typeof ClubsRouteWithChildren
+  '/contact': typeof ContactRoute
   '/events': typeof EventsRouteWithChildren
   '/gallery': typeof GalleryRoute
   '/start-a-social': typeof StartASocialRoute
@@ -115,6 +124,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/blog'
     | '/clubs'
+    | '/contact'
     | '/events'
     | '/gallery'
     | '/start-a-social'
@@ -127,6 +137,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/blog'
     | '/clubs'
+    | '/contact'
     | '/events'
     | '/gallery'
     | '/start-a-social'
@@ -139,6 +150,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/blog'
     | '/clubs'
+    | '/contact'
     | '/events'
     | '/gallery'
     | '/start-a-social'
@@ -152,6 +164,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   BlogRoute: typeof BlogRouteWithChildren
   ClubsRoute: typeof ClubsRouteWithChildren
+  ContactRoute: typeof ContactRoute
   EventsRoute: typeof EventsRouteWithChildren
   GalleryRoute: typeof GalleryRoute
   StartASocialRoute: typeof StartASocialRoute
@@ -178,6 +191,13 @@ declare module '@tanstack/react-router' {
       path: '/events'
       fullPath: '/events'
       preLoaderRoute: typeof EventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/clubs': {
@@ -268,6 +288,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   BlogRoute: BlogRouteWithChildren,
   ClubsRoute: ClubsRouteWithChildren,
+  ContactRoute: ContactRoute,
   EventsRoute: EventsRouteWithChildren,
   GalleryRoute: GalleryRoute,
   StartASocialRoute: StartASocialRoute,
@@ -275,3 +296,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
