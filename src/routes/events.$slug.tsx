@@ -1,7 +1,8 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { useState } from "react";
 import { ArrowLeft, Calendar, Clock, MapPin, Users } from "lucide-react";
-import { toast } from "sonner";
 import { eventBySlug } from "@/data/events";
+import { RsvpDialog } from "@/components/site/RsvpDialog";
 
 export const Route = createFileRoute("/events/$slug")({
   loader: ({ params }) => {
