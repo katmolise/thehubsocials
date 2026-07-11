@@ -1,7 +1,8 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { useState } from "react";
 import { ArrowLeft, Calendar, Clock, MapPin, Users } from "lucide-react";
-import { toast } from "sonner";
 import { eventBySlug } from "@/data/events";
+import { RsvpDialog } from "@/components/site/RsvpDialog";
 
 export const Route = createFileRoute("/events/$slug")({
   loader: ({ params }) => {
@@ -43,6 +44,7 @@ export const Route = createFileRoute("/events/$slug")({
 
 function EventDetail() {
   const { event } = Route.useLoaderData();
+  const [rsvpOpen, setRsvpOpen] = useState(false);
   const d = new Date(event.date);
   const nice = d.toLocaleDateString("en-ZA", { weekday: "long", month: "long", day: "numeric", year: "numeric" });
 
@@ -107,13 +109,20 @@ function EventDetail() {
             <div className="mt-1 font-semibold">{event.location}</div>
           </div>
           <button
-            onClick={() => toast.success("You're on the list — see you there!")}
+            onClick={() => setRsvpOpen(true)}
             className="w-full rounded-3xl bg-primary p-5 text-center font-semibold text-primary-foreground shadow-lg shadow-primary/20 hover:bg-primary-hover"
           >
             RSVP
           </button>
         </aside>
       </section>
+
+      <RsvpDialog
+        open={rsvpOpen}
+        onClose={() => setRsvpOpen(false)}
+        eventSlug={event.slug}
+        eventTitle={event.title}
+      />
     </div>
   );
 }
