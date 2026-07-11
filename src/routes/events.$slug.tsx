@@ -44,6 +44,7 @@ export const Route = createFileRoute("/events/$slug")({
 
 function EventDetail() {
   const { event } = Route.useLoaderData();
+  const [rsvpOpen, setRsvpOpen] = useState(false);
   const d = new Date(event.date);
   const nice = d.toLocaleDateString("en-ZA", { weekday: "long", month: "long", day: "numeric", year: "numeric" });
 
