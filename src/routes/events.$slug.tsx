@@ -109,13 +109,20 @@ function EventDetail() {
             <div className="mt-1 font-semibold">{event.location}</div>
           </div>
           <button
-            onClick={() => toast.success("You're on the list — see you there!")}
+            onClick={() => setRsvpOpen(true)}
             className="w-full rounded-3xl bg-primary p-5 text-center font-semibold text-primary-foreground shadow-lg shadow-primary/20 hover:bg-primary-hover"
           >
             RSVP
           </button>
         </aside>
       </section>
+
+      <RsvpDialog
+        open={rsvpOpen}
+        onClose={() => setRsvpOpen(false)}
+        eventSlug={event.slug}
+        eventTitle={event.title}
+      />
     </div>
   );
 }
