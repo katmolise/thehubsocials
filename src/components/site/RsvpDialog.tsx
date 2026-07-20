@@ -18,9 +18,10 @@ type Props = {
   onClose: () => void;
   eventSlug: string;
   eventTitle: string;
+  onSuccess?: () => void;
 };
 
-export function RsvpDialog({ open, onClose, eventSlug, eventTitle }: Props) {
+export function RsvpDialog({ open, onClose, eventSlug, eventTitle, onSuccess }: Props) {
   const [submitting, setSubmitting] = useState(false);
   const [confirmed, setConfirmed] = useState<null | { name: string }>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -63,6 +64,7 @@ export function RsvpDialog({ open, onClose, eventSlug, eventTitle }: Props) {
       return;
     }
     setConfirmed({ name: parsed.data.name });
+    onSuccess?.();
   }
 
   function handleClose() {
