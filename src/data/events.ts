@@ -30,7 +30,7 @@ export const events: EventItem[] = [
     location: "Vaal University Grounds",
     category: "Sports",
     description: "Regular 7-a-side league fixtures. Turn up 15 min early to warm up.",
-    image: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1600&q=80",
+    image: "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=1600&q=80",
     attending: 41,
   },
   {

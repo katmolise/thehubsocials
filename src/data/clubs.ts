@@ -38,7 +38,7 @@ export const clubs: Club[] = [
     description:
       "Casual but competitive 7-a-side matches every Sunday. All skill levels welcome — teams are shuffled to keep things fair and fun.",
     members: 96,
-    image: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1200&q=80",
+    image: "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=1200&q=80",
     gallery: [
       "https://images.unsplash.com/photo-1522778119026-d647f0596c20?auto=format&fit=crop&w=1200&q=80",
     ],
