@@ -118,6 +118,71 @@ function EventDetail() {
           </div>
 
           <div>
+            <div className="flex items-end justify-between">
+              <h3 className="font-display text-xl font-bold">
+                Who's coming{" "}
+                {!loadingAttendees && (
+                  <span className="text-muted-foreground font-normal">
+                    · {totalGuests} {totalGuests === 1 ? "guest" : "guests"}
+                  </span>
+                )}
+              </h3>
+            </div>
+            {loadingAttendees ? (
+              <div className="mt-4 flex gap-3">
+                {[0, 1, 2, 3, 4].map((i) => (
+                  <div key={i} className="size-12 animate-pulse rounded-full bg-muted" />
+                ))}
+              </div>
+            ) : attendees.length === 0 ? (
+              <p className="mt-4 text-muted-foreground">
+                Be the first to RSVP — your name will show up here.
+              </p>
+            ) : (
+              <>
+                <div className="mt-4 flex flex-wrap -space-x-2">
+                  {attendees.slice(0, 12).map((a, i) => (
+                    <div
+                      key={i}
+                      title={`${a.name}${a.guests > 1 ? ` (+${a.guests - 1})` : ""}`}
+                      className={`flex size-12 items-center justify-center rounded-full border-2 border-background text-sm font-bold ${AVATAR_COLORS[i % AVATAR_COLORS.length]}`}
+                    >
+                      {initials(a.name)}
+                    </div>
+                  ))}
+                  {attendees.length > 12 && (
+                    <div className="flex size-12 items-center justify-center rounded-full border-2 border-background bg-muted text-xs font-bold text-muted-foreground">
+                      +{attendees.length - 12}
+                    </div>
+                  )}
+                </div>
+                <ul className="mt-6 divide-y divide-foreground/5 rounded-3xl border border-foreground/5 bg-card">
+                  {attendees.map((a, i) => (
+                    <li key={i} className="flex items-center gap-4 px-5 py-3">
+                      <div
+                        className={`flex size-10 shrink-0 items-center justify-center rounded-full text-xs font-bold ${AVATAR_COLORS[i % AVATAR_COLORS.length]}`}
+                      >
+                        {initials(a.name)}
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <div className="truncate font-semibold">{a.name}</div>
+                        <div className="text-xs text-muted-foreground">
+                          RSVP'd {new Date(a.created_at).toLocaleDateString("en-ZA", { month: "short", day: "numeric" })}
+                        </div>
+                      </div>
+                      {a.guests > 1 && (
+                        <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+                          +{a.guests - 1} guest{a.guests - 1 === 1 ? "" : "s"}
+                        </span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+          </div>
+
+          <div>
             <h3 className="font-display text-xl font-bold">Location</h3>
             <div className="mt-4 overflow-hidden rounded-3xl border border-foreground/5">
               <iframe
@@ -156,7 +221,9 @@ function EventDetail() {
         onClose={() => setRsvpOpen(false)}
         eventSlug={event.slug}
         eventTitle={event.title}
+        onSuccess={loadAttendees}
       />
+
     </div>
   );
 }
