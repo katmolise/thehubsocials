@@ -18,6 +18,7 @@ type Props = {
   onClose: () => void;
   eventSlug: string;
   eventTitle: string;
+  onSuccess?: () => void;
 };
 
 export function RsvpDialog({ open, onClose, eventSlug, eventTitle }: Props) {
