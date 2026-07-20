@@ -64,6 +64,7 @@ export function RsvpDialog({ open, onClose, eventSlug, eventTitle, onSuccess }: 
       return;
     }
     setConfirmed({ name: parsed.data.name });
+    onSuccess?.();
   }
 
   function handleClose() {
