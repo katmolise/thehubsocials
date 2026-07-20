@@ -52,7 +52,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_event_attendees: {
+        Args: { _event_slug: string }
+        Returns: {
+          created_at: string
+          guests: number
+          name: string
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
