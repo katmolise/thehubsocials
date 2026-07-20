@@ -43,11 +43,44 @@ export const Route = createFileRoute("/events/$slug")({
   ),
 });
 
+type Attendee = { name: string; guests: number; created_at: string };
+
+function initials(name: string) {
+  return name
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((s) => s[0]?.toUpperCase() ?? "")
+    .join("");
+}
+
+const AVATAR_COLORS = [
+  "bg-primary/15 text-primary",
+  "bg-accent/20 text-accent-foreground",
+  "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300",
+  "bg-fuchsia-500/15 text-fuchsia-700 dark:text-fuchsia-300",
+  "bg-sky-500/15 text-sky-700 dark:text-sky-300",
+  "bg-amber-500/20 text-amber-800 dark:text-amber-300",
+];
+
 function EventDetail() {
   const { event } = Route.useLoaderData();
   const [rsvpOpen, setRsvpOpen] = useState(false);
+  const [attendees, setAttendees] = useState<Attendee[]>([]);
+  const [loadingAttendees, setLoadingAttendees] = useState(true);
   const d = new Date(event.date);
   const nice = d.toLocaleDateString("en-ZA", { weekday: "long", month: "long", day: "numeric", year: "numeric" });
+
+  const loadAttendees = useCallback(async () => {
+    const { data, error } = await supabase.rpc("get_event_attendees", { _event_slug: event.slug });
+    if (!error && data) setAttendees(data as Attendee[]);
+    setLoadingAttendees(false);
+  }, [event.slug]);
+
+  useEffect(() => {
+    loadAttendees();
+  }, [loadAttendees]);
+
+  const totalGuests = attendees.reduce((n, a) => n + (a.guests || 1), 0);
 
   const mapQuery = encodeURIComponent(event.location + ", Vaal Triangle, South Africa");
 
