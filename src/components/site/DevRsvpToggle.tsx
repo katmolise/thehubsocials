@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { Loader2, Sparkles, Trash2, FlaskConical } from "lucide-react";
+import { Loader2, Sparkles, Trash2, FlaskConical, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
-import { seedDummyRsvps, clearDummyRsvps } from "@/lib/dev-rsvps.functions";
+import { seedDummyRsvps, clearDummyRsvps, reseedAllDummyRsvps } from "@/lib/dev-rsvps.functions";
 
 type Props = {
   slug: string;
