@@ -16,10 +16,11 @@ export function DevRsvpToggle({ slug, onChanged }: Props) {
 
 function DevRsvpTogglePanel({ slug, onChanged }: Props) {
   const [open, setOpen] = useState(false);
-  const [busy, setBusy] = useState<null | "seed" | "clear">(null);
+  const [busy, setBusy] = useState<null | "seed" | "clear" | "all">(null);
   const [count, setCount] = useState(8);
   const seed = useServerFn(seedDummyRsvps);
   const clear = useServerFn(clearDummyRsvps);
+  const reseedAll = useServerFn(reseedAllDummyRsvps);
 
   async function doSeed() {
     setBusy("seed");
