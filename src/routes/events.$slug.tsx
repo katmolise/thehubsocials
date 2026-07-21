@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import { ArrowLeft, Calendar, Clock, MapPin, Users } from "lucide-react";
 import { eventBySlug } from "@/data/events";
 import { RsvpDialog } from "@/components/site/RsvpDialog";
+import { DevRsvpToggle } from "@/components/site/DevRsvpToggle";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/events/$slug")({
@@ -224,6 +225,7 @@ function EventDetail() {
         onSuccess={loadAttendees}
       />
 
+      <DevRsvpToggle slug={event.slug} onChanged={loadAttendees} />
     </div>
   );
 }
