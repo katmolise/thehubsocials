@@ -54,3 +54,41 @@ export const clearDummyRsvps = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     return { ok: true };
   });
+
+export const reseedAllDummyRsvps = createServerFn({ method: "POST" })
+  .inputValidator((input: { perEvent?: number }) => ({
+    perEvent: Math.min(Math.max(input?.perEvent ?? 8, 1), 20),
+  }))
+  .handler(async ({ data }) => {
+    const { events } = await import("@/data/events");
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+    await supabaseAdmin.from("rsvps").delete().like("email", `%${DUMMY_DOMAIN}`);
+
+    const rows: Array<{
+      event_slug: string;
+      name: string;
+      email: string;
+      phone: null;
+      guests: number;
+      notes: null;
+    }> = [];
+
+    for (const ev of events) {
+      const shuffled = [...NAMES].sort(() => Math.random() - 0.5).slice(0, data.perEvent);
+      shuffled.forEach((name, i) => {
+        rows.push({
+          event_slug: ev.slug,
+          name,
+          email: `${name.toLowerCase().replace(/\s+/g, ".")}.${i}.${ev.slug}${DUMMY_DOMAIN}`,
+          phone: null,
+          guests: Math.random() < 0.25 ? 2 : 1,
+          notes: null,
+        });
+      });
+    }
+
+    const { error } = await supabaseAdmin.from("rsvps").insert(rows);
+    if (error) throw new Error(error.message);
+    return { inserted: rows.length, events: events.length };
+  });

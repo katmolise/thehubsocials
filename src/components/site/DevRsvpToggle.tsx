@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { Loader2, Sparkles, Trash2, FlaskConical } from "lucide-react";
+import { Loader2, Sparkles, Trash2, FlaskConical, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
-import { seedDummyRsvps, clearDummyRsvps } from "@/lib/dev-rsvps.functions";
+import { seedDummyRsvps, clearDummyRsvps, reseedAllDummyRsvps } from "@/lib/dev-rsvps.functions";
 
 type Props = {
   slug: string;
@@ -16,10 +16,11 @@ export function DevRsvpToggle({ slug, onChanged }: Props) {
 
 function DevRsvpTogglePanel({ slug, onChanged }: Props) {
   const [open, setOpen] = useState(false);
-  const [busy, setBusy] = useState<null | "seed" | "clear">(null);
+  const [busy, setBusy] = useState<null | "seed" | "clear" | "all">(null);
   const [count, setCount] = useState(8);
   const seed = useServerFn(seedDummyRsvps);
   const clear = useServerFn(clearDummyRsvps);
+  const reseedAll = useServerFn(reseedAllDummyRsvps);
 
   async function doSeed() {
     setBusy("seed");
@@ -42,6 +43,18 @@ function DevRsvpTogglePanel({ slug, onChanged }: Props) {
       onChanged();
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Clear failed");
+    } finally {
+      setBusy(null);
+    }
+  }
+  async function doReseedAll() {
+    setBusy("all");
+    try {
+      const res = await reseedAll({ data: { perEvent: count } });
+      toast.success(`Reseeded ${res.inserted} RSVPs across ${res.events} events`);
+      onChanged();
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Reseed all failed");
     } finally {
       setBusy(null);
     }
@@ -94,6 +107,14 @@ function DevRsvpTogglePanel({ slug, onChanged }: Props) {
               Clear
             </button>
           </div>
+          <button
+            onClick={doReseedAll}
+            disabled={busy !== null}
+            className="mt-2 flex w-full items-center justify-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-2 text-xs font-semibold text-primary hover:bg-primary/20 disabled:opacity-60"
+          >
+            {busy === "all" ? <Loader2 className="size-3.5 animate-spin" /> : <RefreshCw className="size-3.5" />}
+            Reseed all events
+          </button>
         </div>
       ) : (
         <button
