@@ -47,6 +47,18 @@ function DevRsvpTogglePanel({ slug, onChanged }: Props) {
       setBusy(null);
     }
   }
+  async function doReseedAll() {
+    setBusy("all");
+    try {
+      const res = await reseedAll({ data: { perEvent: count } });
+      toast.success(`Reseeded ${res.inserted} RSVPs across ${res.events} events`);
+      onChanged();
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Reseed all failed");
+    } finally {
+      setBusy(null);
+    }
+  }
 
   return (
     <div className="fixed bottom-4 left-4 z-[90]">
