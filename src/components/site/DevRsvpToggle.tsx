@@ -107,6 +107,14 @@ function DevRsvpTogglePanel({ slug, onChanged }: Props) {
               Clear
             </button>
           </div>
+          <button
+            onClick={doReseedAll}
+            disabled={busy !== null}
+            className="mt-2 flex w-full items-center justify-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-2 text-xs font-semibold text-primary hover:bg-primary/20 disabled:opacity-60"
+          >
+            {busy === "all" ? <Loader2 className="size-3.5 animate-spin" /> : <RefreshCw className="size-3.5" />}
+            Reseed all events
+          </button>
         </div>
       ) : (
         <button
