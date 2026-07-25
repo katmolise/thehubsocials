@@ -5,7 +5,7 @@ import { events } from "@/data/events";
 import { EventCard } from "@/components/site/EventCard";
 import { SectionHeading } from "@/components/site/SectionHeading";
 
-export const Route = createFileRoute("/events")({
+export const Route = createFileRoute("/events/")({
   head: () => ({
     meta: [
       { title: "Events — The Hub Social" },

@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { posts } from "@/data/posts";
 import { SectionHeading } from "@/components/site/SectionHeading";
 
-export const Route = createFileRoute("/blog")({
+export const Route = createFileRoute("/blog/")({
   head: () => ({
     meta: [
       { title: "Blog — The Hub Social" },
