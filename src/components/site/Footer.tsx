@@ -3,6 +3,7 @@ import { Instagram, Facebook, Youtube, Twitter } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
+import { supabase } from "@/integrations/supabase/client";
 
 const emailSchema = z.string().trim().email({ message: "Please enter a valid email" }).max(255);
 
@@ -10,7 +11,7 @@ export function Footer() {
   const [email, setEmail] = useState("");
   const [busy, setBusy] = useState(false);
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     const parsed = emailSchema.safeParse(email);
     if (!parsed.success) {
@@ -18,11 +19,21 @@ export function Footer() {
       return;
     }
     setBusy(true);
-    setTimeout(() => {
-      toast.success("You're on the list — welcome to The Hub.");
-      setEmail("");
-      setBusy(false);
-    }, 500);
+    const { error } = await supabase
+      .from("newsletter_subscribers")
+      .insert({ email: parsed.data });
+    setBusy(false);
+    if (error) {
+      if (error.code === "23505") {
+        toast.success("You're already subscribed — see you soon.");
+        setEmail("");
+        return;
+      }
+      toast.error("Couldn't subscribe just yet — please try again.");
+      return;
+    }
+    toast.success("You're on the list — welcome to The Hub.");
+    setEmail("");
   };
 
   return (
