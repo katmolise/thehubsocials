@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { Mail, MapPin, MessageCircle, Youtube, Music2 } from "lucide-react";
 import { SectionHeading } from "@/components/site/SectionHeading";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
