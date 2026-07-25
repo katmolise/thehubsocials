@@ -11,12 +11,12 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as StartASocialRouteImport } from './routes/start-a-social'
 import { Route as GalleryRouteImport } from './routes/gallery'
-import { Route as EventsRouteImport } from './routes/events'
 import { Route as ContactRouteImport } from './routes/contact'
-import { Route as ClubsRouteImport } from './routes/clubs'
-import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as EventsIndexRouteImport } from './routes/events.index'
+import { Route as ClubsIndexRouteImport } from './routes/clubs.index'
+import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as EventsSlugRouteImport } from './routes/events.$slug'
 import { Route as ClubsSlugRouteImport } from './routes/clubs.$slug'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
@@ -31,24 +31,9 @@ const GalleryRoute = GalleryRouteImport.update({
   path: '/gallery',
   getParentRoute: () => rootRouteImport,
 } as any)
-const EventsRoute = EventsRouteImport.update({
-  id: '/events',
-  path: '/events',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ClubsRoute = ClubsRouteImport.update({
-  id: '/clubs',
-  path: '/clubs',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BlogRoute = BlogRouteImport.update({
-  id: '/blog',
-  path: '/blog',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -59,6 +44,21 @@ const AboutRoute = AboutRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EventsIndexRoute = EventsIndexRouteImport.update({
+  id: '/events/',
+  path: '/events/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ClubsIndexRoute = ClubsIndexRouteImport.update({
+  id: '/clubs/',
+  path: '/clubs/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EventsSlugRoute = EventsSlugRouteImport.update({
@@ -80,94 +80,94 @@ const BlogSlugRoute = BlogSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/blog': typeof BlogRouteWithChildren
-  '/clubs': typeof ClubsRouteWithChildren
   '/contact': typeof ContactRoute
-  '/events': typeof EventsRouteWithChildren
   '/gallery': typeof GalleryRoute
   '/start-a-social': typeof StartASocialRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/clubs/$slug': typeof ClubsSlugRoute
   '/events/$slug': typeof EventsSlugRoute
+  '/blog/': typeof BlogIndexRoute
+  '/clubs/': typeof ClubsIndexRoute
+  '/events/': typeof EventsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/blog': typeof BlogRouteWithChildren
-  '/clubs': typeof ClubsRouteWithChildren
   '/contact': typeof ContactRoute
-  '/events': typeof EventsRouteWithChildren
   '/gallery': typeof GalleryRoute
   '/start-a-social': typeof StartASocialRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/clubs/$slug': typeof ClubsSlugRoute
   '/events/$slug': typeof EventsSlugRoute
+  '/blog': typeof BlogIndexRoute
+  '/clubs': typeof ClubsIndexRoute
+  '/events': typeof EventsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/blog': typeof BlogRouteWithChildren
-  '/clubs': typeof ClubsRouteWithChildren
   '/contact': typeof ContactRoute
-  '/events': typeof EventsRouteWithChildren
   '/gallery': typeof GalleryRoute
   '/start-a-social': typeof StartASocialRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/clubs/$slug': typeof ClubsSlugRoute
   '/events/$slug': typeof EventsSlugRoute
+  '/blog/': typeof BlogIndexRoute
+  '/clubs/': typeof ClubsIndexRoute
+  '/events/': typeof EventsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/about'
-    | '/blog'
-    | '/clubs'
     | '/contact'
-    | '/events'
     | '/gallery'
     | '/start-a-social'
     | '/blog/$slug'
     | '/clubs/$slug'
     | '/events/$slug'
+    | '/blog/'
+    | '/clubs/'
+    | '/events/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
-    | '/blog'
-    | '/clubs'
     | '/contact'
-    | '/events'
     | '/gallery'
     | '/start-a-social'
     | '/blog/$slug'
     | '/clubs/$slug'
     | '/events/$slug'
+    | '/blog'
+    | '/clubs'
+    | '/events'
   id:
     | '__root__'
     | '/'
     | '/about'
-    | '/blog'
-    | '/clubs'
     | '/contact'
-    | '/events'
     | '/gallery'
     | '/start-a-social'
     | '/blog/$slug'
     | '/clubs/$slug'
     | '/events/$slug'
+    | '/blog/'
+    | '/clubs/'
+    | '/events/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  BlogRoute: typeof BlogRouteWithChildren
-  ClubsRoute: typeof ClubsRouteWithChildren
   ContactRoute: typeof ContactRoute
-  EventsRoute: typeof EventsRouteWithChildren
   GalleryRoute: typeof GalleryRoute
   StartASocialRoute: typeof StartASocialRoute
+  BlogIndexRoute: typeof BlogIndexRoute
+  ClubsIndexRoute: typeof ClubsIndexRoute
+  EventsIndexRoute: typeof EventsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -186,32 +186,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GalleryRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/events': {
-      id: '/events'
-      path: '/events'
-      fullPath: '/events'
-      preLoaderRoute: typeof EventsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/contact': {
       id: '/contact'
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/clubs': {
-      id: '/clubs'
-      path: '/clubs'
-      fullPath: '/clubs'
-      preLoaderRoute: typeof ClubsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/blog': {
-      id: '/blog'
-      path: '/blog'
-      fullPath: '/blog'
-      preLoaderRoute: typeof BlogRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -226,6 +205,27 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/events/': {
+      id: '/events/'
+      path: '/events'
+      fullPath: '/events/'
+      preLoaderRoute: typeof EventsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/clubs/': {
+      id: '/clubs/'
+      path: '/clubs'
+      fullPath: '/clubs/'
+      preLoaderRoute: typeof ClubsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/': {
+      id: '/blog/'
+      path: '/blog'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/events/$slug': {
@@ -252,46 +252,15 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface BlogRouteChildren {
-  BlogSlugRoute: typeof BlogSlugRoute
-}
-
-const BlogRouteChildren: BlogRouteChildren = {
-  BlogSlugRoute: BlogSlugRoute,
-}
-
-const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
-
-interface ClubsRouteChildren {
-  ClubsSlugRoute: typeof ClubsSlugRoute
-}
-
-const ClubsRouteChildren: ClubsRouteChildren = {
-  ClubsSlugRoute: ClubsSlugRoute,
-}
-
-const ClubsRouteWithChildren = ClubsRoute._addFileChildren(ClubsRouteChildren)
-
-interface EventsRouteChildren {
-  EventsSlugRoute: typeof EventsSlugRoute
-}
-
-const EventsRouteChildren: EventsRouteChildren = {
-  EventsSlugRoute: EventsSlugRoute,
-}
-
-const EventsRouteWithChildren =
-  EventsRoute._addFileChildren(EventsRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  BlogRoute: BlogRouteWithChildren,
-  ClubsRoute: ClubsRouteWithChildren,
   ContactRoute: ContactRoute,
-  EventsRoute: EventsRouteWithChildren,
   GalleryRoute: GalleryRoute,
   StartASocialRoute: StartASocialRoute,
+  BlogIndexRoute: BlogIndexRoute,
+  ClubsIndexRoute: ClubsIndexRoute,
+  EventsIndexRoute: EventsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
