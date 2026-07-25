@@ -5,7 +5,7 @@ import { clubs } from "@/data/clubs";
 import { ClubCard } from "@/components/site/ClubCard";
 import { SectionHeading } from "@/components/site/SectionHeading";
 
-export const Route = createFileRoute("/clubs")({
+export const Route = createFileRoute("/clubs/")({
   head: () => ({
     meta: [
       { title: "Community Clubs — The Hub Social" },

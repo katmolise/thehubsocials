@@ -11,12 +11,12 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as StartASocialRouteImport } from './routes/start-a-social'
 import { Route as GalleryRouteImport } from './routes/gallery'
-import { Route as EventsRouteImport } from './routes/events'
 import { Route as ContactRouteImport } from './routes/contact'
-import { Route as ClubsRouteImport } from './routes/clubs'
-import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as EventsIndexRouteImport } from './routes/events.index'
+import { Route as ClubsIndexRouteImport } from './routes/clubs.index'
+import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as EventsSlugRouteImport } from './routes/events.$slug'
 import { Route as ClubsSlugRouteImport } from './routes/clubs.$slug'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
@@ -31,24 +31,9 @@ const GalleryRoute = GalleryRouteImport.update({
   path: '/gallery',
   getParentRoute: () => rootRouteImport,
 } as any)
-const EventsRoute = EventsRouteImport.update({
-  id: '/events',
-  path: '/events',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ClubsRoute = ClubsRouteImport.update({
-  id: '/clubs',
-  path: '/clubs',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BlogRoute = BlogRouteImport.update({
-  id: '/blog',
-  path: '/blog',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -61,113 +46,131 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EventsIndexRoute = EventsIndexRouteImport.update({
+  id: '/events/',
+  path: '/events/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ClubsIndexRoute = ClubsIndexRouteImport.update({
+  id: '/clubs/',
+  path: '/clubs/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EventsSlugRoute = EventsSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => EventsRoute,
+  id: '/events/$slug',
+  path: '/events/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ClubsSlugRoute = ClubsSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => ClubsRoute,
+  id: '/clubs/$slug',
+  path: '/clubs/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const BlogSlugRoute = BlogSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => BlogRoute,
+  id: '/blog/$slug',
+  path: '/blog/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/blog': typeof BlogRouteWithChildren
-  '/clubs': typeof ClubsRouteWithChildren
   '/contact': typeof ContactRoute
-  '/events': typeof EventsRouteWithChildren
   '/gallery': typeof GalleryRoute
   '/start-a-social': typeof StartASocialRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/clubs/$slug': typeof ClubsSlugRoute
   '/events/$slug': typeof EventsSlugRoute
+  '/blog/': typeof BlogIndexRoute
+  '/clubs/': typeof ClubsIndexRoute
+  '/events/': typeof EventsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/blog': typeof BlogRouteWithChildren
-  '/clubs': typeof ClubsRouteWithChildren
   '/contact': typeof ContactRoute
-  '/events': typeof EventsRouteWithChildren
   '/gallery': typeof GalleryRoute
   '/start-a-social': typeof StartASocialRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/clubs/$slug': typeof ClubsSlugRoute
   '/events/$slug': typeof EventsSlugRoute
+  '/blog': typeof BlogIndexRoute
+  '/clubs': typeof ClubsIndexRoute
+  '/events': typeof EventsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/blog': typeof BlogRouteWithChildren
-  '/clubs': typeof ClubsRouteWithChildren
   '/contact': typeof ContactRoute
-  '/events': typeof EventsRouteWithChildren
   '/gallery': typeof GalleryRoute
   '/start-a-social': typeof StartASocialRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/clubs/$slug': typeof ClubsSlugRoute
   '/events/$slug': typeof EventsSlugRoute
+  '/blog/': typeof BlogIndexRoute
+  '/clubs/': typeof ClubsIndexRoute
+  '/events/': typeof EventsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/about'
-    | '/blog'
-    | '/clubs'
     | '/contact'
-    | '/events'
     | '/gallery'
     | '/start-a-social'
     | '/blog/$slug'
     | '/clubs/$slug'
     | '/events/$slug'
+    | '/blog/'
+    | '/clubs/'
+    | '/events/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
-    | '/blog'
-    | '/clubs'
     | '/contact'
-    | '/events'
     | '/gallery'
     | '/start-a-social'
     | '/blog/$slug'
     | '/clubs/$slug'
     | '/events/$slug'
+    | '/blog'
+    | '/clubs'
+    | '/events'
   id:
     | '__root__'
     | '/'
     | '/about'
-    | '/blog'
-    | '/clubs'
     | '/contact'
-    | '/events'
     | '/gallery'
     | '/start-a-social'
     | '/blog/$slug'
     | '/clubs/$slug'
     | '/events/$slug'
+    | '/blog/'
+    | '/clubs/'
+    | '/events/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  BlogRoute: typeof BlogRouteWithChildren
-  ClubsRoute: typeof ClubsRouteWithChildren
   ContactRoute: typeof ContactRoute
-  EventsRoute: typeof EventsRouteWithChildren
   GalleryRoute: typeof GalleryRoute
   StartASocialRoute: typeof StartASocialRoute
+  BlogSlugRoute: typeof BlogSlugRoute
+  ClubsSlugRoute: typeof ClubsSlugRoute
+  EventsSlugRoute: typeof EventsSlugRoute
+  BlogIndexRoute: typeof BlogIndexRoute
+  ClubsIndexRoute: typeof ClubsIndexRoute
+  EventsIndexRoute: typeof EventsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -186,32 +189,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GalleryRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/events': {
-      id: '/events'
-      path: '/events'
-      fullPath: '/events'
-      preLoaderRoute: typeof EventsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/contact': {
       id: '/contact'
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/clubs': {
-      id: '/clubs'
-      path: '/clubs'
-      fullPath: '/clubs'
-      preLoaderRoute: typeof ClubsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/blog': {
-      id: '/blog'
-      path: '/blog'
-      fullPath: '/blog'
-      preLoaderRoute: typeof BlogRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -228,70 +210,63 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/events/': {
+      id: '/events/'
+      path: '/events'
+      fullPath: '/events/'
+      preLoaderRoute: typeof EventsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/clubs/': {
+      id: '/clubs/'
+      path: '/clubs'
+      fullPath: '/clubs/'
+      preLoaderRoute: typeof ClubsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/': {
+      id: '/blog/'
+      path: '/blog'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/events/$slug': {
       id: '/events/$slug'
-      path: '/$slug'
+      path: '/events/$slug'
       fullPath: '/events/$slug'
       preLoaderRoute: typeof EventsSlugRouteImport
-      parentRoute: typeof EventsRoute
+      parentRoute: typeof rootRouteImport
     }
     '/clubs/$slug': {
       id: '/clubs/$slug'
-      path: '/$slug'
+      path: '/clubs/$slug'
       fullPath: '/clubs/$slug'
       preLoaderRoute: typeof ClubsSlugRouteImport
-      parentRoute: typeof ClubsRoute
+      parentRoute: typeof rootRouteImport
     }
     '/blog/$slug': {
       id: '/blog/$slug'
-      path: '/$slug'
+      path: '/blog/$slug'
       fullPath: '/blog/$slug'
       preLoaderRoute: typeof BlogSlugRouteImport
-      parentRoute: typeof BlogRoute
+      parentRoute: typeof rootRouteImport
     }
   }
 }
 
-interface BlogRouteChildren {
-  BlogSlugRoute: typeof BlogSlugRoute
-}
-
-const BlogRouteChildren: BlogRouteChildren = {
-  BlogSlugRoute: BlogSlugRoute,
-}
-
-const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
-
-interface ClubsRouteChildren {
-  ClubsSlugRoute: typeof ClubsSlugRoute
-}
-
-const ClubsRouteChildren: ClubsRouteChildren = {
-  ClubsSlugRoute: ClubsSlugRoute,
-}
-
-const ClubsRouteWithChildren = ClubsRoute._addFileChildren(ClubsRouteChildren)
-
-interface EventsRouteChildren {
-  EventsSlugRoute: typeof EventsSlugRoute
-}
-
-const EventsRouteChildren: EventsRouteChildren = {
-  EventsSlugRoute: EventsSlugRoute,
-}
-
-const EventsRouteWithChildren =
-  EventsRoute._addFileChildren(EventsRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  BlogRoute: BlogRouteWithChildren,
-  ClubsRoute: ClubsRouteWithChildren,
   ContactRoute: ContactRoute,
-  EventsRoute: EventsRouteWithChildren,
   GalleryRoute: GalleryRoute,
   StartASocialRoute: StartASocialRoute,
+  BlogSlugRoute: BlogSlugRoute,
+  ClubsSlugRoute: ClubsSlugRoute,
+  EventsSlugRoute: EventsSlugRoute,
+  BlogIndexRoute: BlogIndexRoute,
+  ClubsIndexRoute: ClubsIndexRoute,
+  EventsIndexRoute: EventsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
