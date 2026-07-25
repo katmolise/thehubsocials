@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { Mail, MapPin, MessageCircle, Youtube, Music2 } from "lucide-react";
 import { SectionHeading } from "@/components/site/SectionHeading";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -32,7 +33,7 @@ function Contact() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [busy, setBusy] = useState(false);
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     const parsed = schema.safeParse(form);
     if (!parsed.success) {
@@ -40,11 +41,14 @@ function Contact() {
       return;
     }
     setBusy(true);
-    setTimeout(() => {
-      toast.success("Message sent — we'll reply within a day.");
-      setForm({ name: "", email: "", message: "" });
-      setBusy(false);
-    }, 500);
+    const { error } = await supabase.from("contact_messages").insert(parsed.data);
+    setBusy(false);
+    if (error) {
+      toast.error("Couldn't send just yet — please try again.");
+      return;
+    }
+    toast.success("Message sent — we'll reply within a day.");
+    setForm({ name: "", email: "", message: "" });
   };
 
   return (
