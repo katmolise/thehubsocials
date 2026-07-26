@@ -91,11 +91,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         property: "og:description",
         content:
-          "Local clubs, events and meetups across the Vaal Triangle. Book Club, Football, Hikes, Gaming, Coffee, Entrepreneurship and more.",
+          "The Hub Social brings the Vaal Triangle together through shared interests — join local clubs, attend events, or start your own community.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "theme-color", content: "#22C55E" },
+      { name: "twitter:title", content: "The Hub Social — Where Community Happens" },
+      { name: "twitter:description", content: "The Hub Social brings the Vaal Triangle together through shared interests — join local clubs, attend events, or start your own community." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/1feebc49-3eb6-4da8-83eb-8973c6412a68" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/1feebc49-3eb6-4da8-83eb-8973c6412a68" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
