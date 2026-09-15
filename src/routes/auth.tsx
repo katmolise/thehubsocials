@@ -24,11 +24,8 @@ export const Route = createFileRoute("/auth")({
       },
     ],
   }),
-  validateSearch: (search: Record<string, unknown>) => ({
-    redirect:
-      typeof search.redirect === "string" && search.redirect.startsWith("/")
-        ? search.redirect
-        : undefined,
+  validateSearch: z.object({
+    redirect: z.string().optional(),
   }),
   component: AuthPage,
 });
