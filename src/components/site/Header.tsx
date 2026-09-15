@@ -1,6 +1,9 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Menu, X, Sun, Moon } from "lucide-react";
+import { Menu, X, Sun, Moon, LogOut, UserRound } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { useSession } from "@/hooks/use-session";
 
 const links = [
   { to: "/", label: "Home" },
@@ -17,6 +20,9 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const [dark, setDark] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { user, loading } = useSession();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     const initial =
@@ -42,6 +48,13 @@ export function Header() {
     setDark(next);
     document.documentElement.classList.toggle("dark", next);
     localStorage.setItem("hub-theme", next ? "dark" : "light");
+  };
+
+  const handleSignOut = async () => {
+    await queryClient.cancelQueries();
+    queryClient.clear();
+    await supabase.auth.signOut();
+    navigate({ to: "/auth", replace: true });
   };
 
   return (
@@ -72,12 +85,37 @@ export function Header() {
               {l.label}
             </Link>
           ))}
-          <Link
-            to="/contact"
-            className="rounded-full bg-foreground px-5 py-2 text-sm font-semibold text-background transition-colors hover:bg-primary hover:text-primary-foreground"
-          >
-            Join Community
-          </Link>
+
+          {/* Session-aware affordance */}
+          {!loading && user ? (
+            <div className="flex items-center gap-2">
+              <Link
+                to="/auth"
+                className="flex items-center gap-2 rounded-full border border-foreground/10 px-4 py-2 text-sm font-medium transition-colors hover:bg-muted"
+                title={user.email}
+              >
+                <UserRound className="size-4 text-primary" />
+                <span className="max-w-[120px] truncate text-xs">
+                  {user.email}
+                </span>
+              </Link>
+              <button
+                onClick={handleSignOut}
+                aria-label="Sign out"
+                className="grid size-9 place-items-center rounded-full border border-foreground/10 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+              >
+                <LogOut className="size-4" />
+              </button>
+            </div>
+          ) : (
+            <Link
+              to="/auth"
+              className="rounded-full bg-foreground px-5 py-2 text-sm font-semibold text-background transition-colors hover:bg-primary hover:text-primary-foreground"
+            >
+              Sign In
+            </Link>
+          )}
+
           <button
             onClick={toggleTheme}
             aria-label="Toggle theme"
@@ -120,6 +158,35 @@ export function Header() {
                 {l.label}
               </Link>
             ))}
+
+            {/* Mobile session affordance */}
+            <div className="mt-2 border-t border-foreground/5 pt-3">
+              {!loading && user ? (
+                <div className="flex items-center justify-between gap-2 px-4">
+                  <span className="truncate text-xs text-muted-foreground">
+                    {user.email}
+                  </span>
+                  <button
+                    onClick={() => {
+                      setOpen(false);
+                      handleSignOut();
+                    }}
+                    className="flex items-center gap-2 rounded-full border border-foreground/10 px-4 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+                  >
+                    <LogOut className="size-4" />
+                    Sign Out
+                  </button>
+                </div>
+              ) : (
+                <Link
+                  to="/auth"
+                  onClick={() => setOpen(false)}
+                  className="rounded-xl bg-primary px-4 py-3 text-center text-sm font-semibold text-primary-foreground"
+                >
+                  Sign In
+                </Link>
+              )}
+            </div>
           </div>
         </div>
       )}
