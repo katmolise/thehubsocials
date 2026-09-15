@@ -14,6 +14,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
+import { SessionProvider } from "@/hooks/use-session";
 import { ScrollProgress, BackToTop, WhatsAppFab } from "@/components/site/Chrome";
 
 function NotFoundComponent() {
@@ -156,15 +157,17 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ScrollProgress />
-      <Header />
-      <main>
-        <Outlet />
-      </main>
-      <Footer />
-      <WhatsAppFab />
-      <BackToTop />
-      <Toaster position="top-center" richColors />
+      <SessionProvider>
+        <ScrollProgress />
+        <Header />
+        <main>
+          <Outlet />
+        </main>
+        <Footer />
+        <WhatsAppFab />
+        <BackToTop />
+        <Toaster position="top-center" richColors />
+      </SessionProvider>
     </QueryClientProvider>
   );
 }
