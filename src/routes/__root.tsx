@@ -157,15 +157,17 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ScrollProgress />
-      <Header />
-      <main>
-        <Outlet />
-      </main>
-      <Footer />
-      <WhatsAppFab />
-      <BackToTop />
-      <Toaster position="top-center" richColors />
+      <SessionProvider>
+        <ScrollProgress />
+        <Header />
+        <main>
+          <Outlet />
+        </main>
+        <Footer />
+        <WhatsAppFab />
+        <BackToTop />
+        <Toaster position="top-center" richColors />
+      </SessionProvider>
     </QueryClientProvider>
   );
 }
