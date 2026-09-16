@@ -4,6 +4,7 @@ import { CheckCircle2, Loader2, X } from "lucide-react";
 import { z } from "zod";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { useSession } from "@/hooks/use-session";
 
 const schema = z.object({
   name: z.string().trim().min(1, "Name required").max(100),
@@ -22,6 +23,20 @@ type Props = {
 };
 
 export function RsvpDialog({ open, onClose, eventSlug, eventTitle, onSuccess }: Props) {
+  const { user } = useSession();
+  const defaultEmail = user?.email ?? "";
+  const metaName =
+    (user?.user_metadata?.full_name as string | undefined) ??
+    (user?.user_metadata?.name as string | undefined) ??
+    "";
+  const defaultName =
+    metaName ||
+    (defaultEmail
+      ? defaultEmail
+          .split("@")[0]
+          .replace(/[._-]+/g, " ")
+          .replace(/\b\w/g, (c) => c.toUpperCase())
+      : "");
   const [submitting, setSubmitting] = useState(false);
   const [confirmed, setConfirmed] = useState<null | { name: string }>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
