@@ -23,11 +23,12 @@ type Props = {
 };
 
 export function RsvpDialog({ open, onClose, eventSlug, eventTitle, onSuccess }: Props) {
-  const { user } = useSession();
+  const { user, profile } = useSession();
   const defaultEmail = user?.email ?? "";
   const metaName =
-    (user?.user_metadata?.full_name as string | undefined) ??
-    (user?.user_metadata?.name as string | undefined) ??
+    profile?.display_name ||
+    (user?.user_metadata?.full_name as string | undefined) ||
+    (user?.user_metadata?.name as string | undefined) ||
     "";
   const defaultName =
     metaName ||
