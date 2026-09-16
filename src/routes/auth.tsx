@@ -218,6 +218,25 @@ function AuthPage() {
 
           {/* Email form */}
           <form onSubmit={submit} className="space-y-4">
+            {mode === "signup" && (
+              <div>
+                <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  Full name
+                </label>
+                <div className="relative">
+                  <UserIcon className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+                  <input
+                    type="text"
+                    required
+                    maxLength={100}
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    placeholder="Jane Dlamini"
+                    className="w-full rounded-full border border-foreground/10 bg-background py-3 pl-11 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+                  />
+                </div>
+              </div>
+            )}
             <div>
               <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 Email
