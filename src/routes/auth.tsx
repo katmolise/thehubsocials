@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
 import { useSession } from "@/hooks/use-session";
-import { Mail, Lock, ArrowRight, CheckCircle2 } from "lucide-react";
+import { Mail, Lock, ArrowRight, CheckCircle2, User as UserIcon } from "lucide-react";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -36,6 +36,7 @@ function AuthPage() {
   const { redirect } = Route.useSearch();
 
   const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
