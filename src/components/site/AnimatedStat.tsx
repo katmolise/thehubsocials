@@ -35,13 +35,13 @@ export function AnimatedStat({
       initial={{ opacity: 0, y: 12 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5 }}
-      className="rounded-3xl border border-foreground/5 bg-card p-6 text-center shadow-xl shadow-foreground/5"
+      className="min-w-0 rounded-2xl border border-foreground/5 bg-card px-2 py-5 text-center shadow-md shadow-foreground/5 sm:rounded-3xl sm:p-6 sm:shadow-xl"
     >
-      <div className="font-display text-3xl font-bold text-primary sm:text-4xl">
+      <div className="font-display text-2xl font-bold text-primary sm:text-4xl">
         {current.toLocaleString()}
         {suffix}
       </div>
-      <div className="mt-1 text-xs font-medium uppercase tracking-widest text-muted-foreground">
+      <div className="mt-1 text-[10px] font-medium uppercase leading-4 tracking-wider text-muted-foreground sm:text-xs sm:tracking-widest">
         {label}
       </div>
     </motion.div>

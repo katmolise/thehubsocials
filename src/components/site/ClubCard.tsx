@@ -9,9 +9,9 @@ export function ClubCard({ club, index = 0 }: { club: Club; index?: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.5, delay: index * 0.05 }}
-      className="group relative overflow-hidden rounded-[32px] border border-foreground/5 bg-card transition-all hover:shadow-2xl hover:shadow-primary/5"
+      className="group relative overflow-hidden rounded-3xl border border-foreground/5 bg-card transition-all hover:shadow-2xl hover:shadow-primary/5 sm:rounded-[32px]"
     >
-      <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+      <div className="relative aspect-video overflow-hidden bg-muted sm:aspect-[4/3]">
         <img
           src={club.image}
           alt={club.name}
@@ -27,11 +27,11 @@ export function ClubCard({ club, index = 0 }: { club: Club; index?: number }) {
           {club.emoji}
         </div>
       </div>
-      <div className="p-6 sm:p-7">
+      <div className="p-5 sm:p-7">
         <h3 className="font-display text-xl font-bold">{club.name}</h3>
         <p className="mt-1 text-xs font-medium uppercase tracking-widest text-primary">{club.schedule}</p>
         <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{club.tagline}</p>
-        <div className="mt-6 flex items-center justify-between gap-3">
+        <div className="mt-5 grid grid-cols-[auto_minmax(0,1fr)] items-center gap-3 sm:mt-6">
           <Link
             to="/clubs/$slug"
             params={{ slug: club.slug }}
@@ -42,7 +42,7 @@ export function ClubCard({ club, index = 0 }: { club: Club; index?: number }) {
           <Link
             to="/clubs/$slug"
             params={{ slug: club.slug }}
-            className="text-sm font-semibold text-primary transition-transform group-hover:translate-x-1"
+            className="truncate text-right text-sm font-semibold text-primary transition-transform group-hover:translate-x-1"
           >
             Learn more →
           </Link>
