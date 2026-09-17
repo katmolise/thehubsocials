@@ -11,7 +11,7 @@ export function ClubCard({ club, index = 0 }: { club: Club; index?: number }) {
       transition={{ duration: 0.5, delay: index * 0.05 }}
       className="group relative overflow-hidden rounded-3xl border border-foreground/5 bg-card transition-all hover:shadow-2xl hover:shadow-primary/5 sm:rounded-[32px]"
     >
-      <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+      <div className="relative aspect-video overflow-hidden bg-muted sm:aspect-[4/3]">
         <img
           src={club.image}
           alt={club.name}

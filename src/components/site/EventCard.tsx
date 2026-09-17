@@ -23,9 +23,9 @@ export function EventCard({ event, index = 0 }: { event: EventItem; index?: numb
       <Link
         to="/events/$slug"
         params={{ slug: event.slug }}
-        className="group grid grid-cols-[auto_1fr] items-center gap-5 rounded-3xl border border-foreground/5 bg-card p-5 transition-colors hover:bg-muted/50 sm:grid-cols-[auto_1fr_auto] sm:gap-6 sm:p-6"
+        className="group grid grid-cols-[auto_minmax(0,1fr)] items-center gap-3 rounded-3xl border border-foreground/5 bg-card p-4 transition-colors hover:bg-muted/50 sm:grid-cols-[auto_1fr_auto] sm:gap-6 sm:p-6"
       >
-        <div className="text-center min-w-16">
+        <div className="min-w-14 text-center sm:min-w-16">
           <div className="text-xs font-bold uppercase tracking-widest text-primary">{month}</div>
           <div className="font-display text-3xl font-bold">{day}</div>
         </div>
