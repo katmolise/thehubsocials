@@ -3,7 +3,6 @@ import { useCallback, useEffect, useState } from "react";
 import { ArrowLeft, Calendar, Clock, MapPin, Users } from "lucide-react";
 import { eventBySlug } from "@/data/events";
 import { RsvpDialog } from "@/components/site/RsvpDialog";
-import { DevRsvpToggle } from "@/components/site/DevRsvpToggle";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/events/$slug")({
@@ -91,17 +90,17 @@ function EventDetail() {
         <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[32px] bg-foreground sm:rounded-[40px]">
           <img src={event.image} alt={event.title} className="absolute inset-0 h-full w-full object-cover opacity-60" />
           <div className="absolute inset-0 bg-gradient-to-b from-foreground/40 to-foreground/85" />
-          <div className="relative flex min-h-[460px] flex-col justify-end p-8 text-white sm:p-14">
+          <div className="relative flex min-h-[460px] flex-col justify-end p-6 text-white sm:p-14">
             <Link to="/events" className="mb-6 inline-flex w-fit items-center gap-2 text-sm text-white/80 hover:text-white">
               <ArrowLeft className="size-4" /> All events
             </Link>
             <span className="rounded-full bg-accent/20 px-3 py-1 text-xs font-bold uppercase tracking-widest text-accent backdrop-blur w-fit">
               {event.category}
             </span>
-            <h1 className="mt-4 max-w-3xl font-display text-4xl font-bold text-balance sm:text-5xl md:text-6xl">
+            <h1 className="mt-4 max-w-3xl font-display text-3xl font-bold leading-tight text-balance sm:text-5xl md:text-6xl">
               {event.title}
             </h1>
-            <div className="mt-6 flex flex-wrap gap-6 text-white/85">
+            <div className="mt-6 grid gap-3 text-sm text-white/85 sm:flex sm:flex-wrap sm:gap-6 sm:text-base">
               <span className="flex items-center gap-2"><Calendar className="size-4" /> {nice}</span>
               <span className="flex items-center gap-2"><Clock className="size-4" /> {event.time}</span>
               <span className="flex items-center gap-2"><MapPin className="size-4" /> {event.location}</span>
@@ -119,7 +118,7 @@ function EventDetail() {
           </div>
 
           <div>
-            <div className="flex items-end justify-between">
+            <div className="grid grid-cols-[minmax(0,1fr)_auto] items-end gap-3">
               <h3 className="font-display text-xl font-bold">
                 Who's coming{" "}
                 {!loadingAttendees && (
@@ -157,9 +156,9 @@ function EventDetail() {
                     </div>
                   )}
                 </div>
-                <ul className="mt-6 divide-y divide-foreground/5 rounded-3xl border border-foreground/5 bg-card">
+                <ul className="mt-6 divide-y divide-foreground/5 overflow-hidden rounded-2xl border border-foreground/5 bg-card sm:rounded-3xl">
                   {attendees.map((a, i) => (
-                    <li key={i} className="flex items-center gap-4 px-5 py-3">
+                    <li key={i} className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 px-4 py-3 sm:gap-4 sm:px-5">
                       <div
                         className={`flex size-10 shrink-0 items-center justify-center rounded-full text-xs font-bold ${AVATAR_COLORS[i % AVATAR_COLORS.length]}`}
                       >
@@ -172,7 +171,7 @@ function EventDetail() {
                         </div>
                       </div>
                       {a.guests > 1 && (
-                        <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+                          <span className="shrink-0 rounded-full bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary sm:px-3">
                           +{a.guests - 1} guest{a.guests - 1 === 1 ? "" : "s"}
                         </span>
                       )}
@@ -225,7 +224,6 @@ function EventDetail() {
         onSuccess={loadAttendees}
       />
 
-      <DevRsvpToggle slug={event.slug} onChanged={loadAttendees} />
     </div>
   );
 }

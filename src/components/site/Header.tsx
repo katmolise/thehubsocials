@@ -60,15 +60,15 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full px-3 pt-3 sm:px-4 sm:pt-4">
       <nav
-        className={`mx-auto flex h-16 max-w-7xl items-center justify-between rounded-2xl border border-foreground/5 px-4 transition-all sm:px-6 ${
+        className={`mx-auto grid h-16 max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-2xl border border-foreground/5 px-4 transition-all sm:px-6 lg:flex lg:justify-between ${
           scrolled ? "bg-background/80 shadow-lg shadow-foreground/5 backdrop-blur-xl" : "bg-background/60 backdrop-blur-md"
         }`}
       >
-        <Link to="/" className="flex items-center gap-2">
-          <div className="grid size-9 place-items-center rounded-xl bg-primary">
+        <Link to="/" className="flex min-w-0 items-center gap-2">
+          <div className="grid size-9 shrink-0 place-items-center rounded-xl bg-primary">
             <div className="size-4 rounded-full border-2 border-primary-foreground/70" />
           </div>
-          <span className="font-display text-lg font-bold tracking-tight">
+          <span className="truncate font-display text-base font-bold sm:text-lg">
             The Hub Social
           </span>
         </Link>
@@ -125,7 +125,7 @@ export function Header() {
           </button>
         </div>
 
-        <div className="flex items-center gap-2 lg:hidden">
+        <div className="flex shrink-0 items-center gap-2 lg:hidden">
           <button
             onClick={toggleTheme}
             aria-label="Toggle theme"

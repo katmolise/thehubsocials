@@ -40,19 +40,19 @@ function Home() {
   return (
     <div className="pb-20">
       {/* HERO */}
-      <section className="px-3 pt-4 sm:px-4">
-        <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[32px] bg-foreground sm:rounded-[40px]">
+      <section className="px-3 pt-3 sm:px-4 sm:pt-4">
+        <div className="relative mx-auto max-w-7xl overflow-hidden rounded-3xl bg-foreground sm:rounded-[40px]">
           <img
             src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=2000&q=80"
             alt="Community gathering in the Vaal Triangle"
             className="absolute inset-0 h-full w-full object-cover opacity-70"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-foreground/40 via-foreground/50 to-foreground/80" />
-          <div className="relative flex min-h-[560px] flex-col items-center justify-center px-6 py-20 text-center sm:min-h-[640px] sm:py-28">
+          <div className="relative flex min-h-[570px] flex-col items-center justify-center px-5 py-16 text-center sm:min-h-[640px] sm:px-6 sm:py-28">
             <motion.span
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-white backdrop-blur-md"
+              className="max-w-full rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-widest text-white backdrop-blur-md sm:px-4 sm:text-xs"
             >
               Vaal Triangle · South Africa
             </motion.span>
@@ -60,7 +60,7 @@ function Home() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="mt-6 max-w-4xl font-display text-5xl font-bold tracking-tight text-white text-balance sm:text-6xl md:text-7xl lg:text-8xl"
+              className="mt-5 max-w-4xl font-display text-[2.65rem] font-bold leading-[1.08] text-white text-balance sm:mt-6 sm:text-6xl md:text-7xl lg:text-8xl"
             >
               Where <span className="text-primary">Community</span> Happens
             </motion.h1>
@@ -68,7 +68,7 @@ function Home() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="mt-6 max-w-2xl text-lg text-white/90 text-pretty sm:text-xl"
+              className="mt-5 max-w-2xl text-base leading-7 text-white/90 text-pretty sm:mt-6 sm:text-xl"
             >
               Meet amazing people through shared interests. Join clubs. Attend events. Create your own community.
             </motion.p>
@@ -76,18 +76,18 @@ function Home() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="mt-10 flex flex-wrap items-center justify-center gap-3"
+              className="mt-8 grid w-full max-w-xs gap-3 sm:mt-10 sm:flex sm:w-auto sm:max-w-none sm:flex-wrap sm:items-center sm:justify-center"
             >
               <Link
                 to="/clubs"
-                className="group inline-flex items-center gap-2 rounded-full bg-primary px-7 py-4 font-semibold text-primary-foreground shadow-xl shadow-primary/30 transition-transform hover:scale-105"
+                className="group inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 font-semibold text-primary-foreground shadow-xl shadow-primary/30 transition-transform hover:scale-105 sm:px-7 sm:py-4"
               >
                 Join Community
                 <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
               </Link>
               <Link
                 to="/events"
-                className="rounded-full border border-white/30 bg-white/10 px-7 py-4 font-semibold text-white backdrop-blur-md transition-colors hover:bg-white/20"
+                className="rounded-full border border-white/30 bg-white/10 px-6 py-3.5 font-semibold text-white backdrop-blur-md transition-colors hover:bg-white/20 sm:px-7 sm:py-4"
               >
                 Upcoming Events
               </Link>
@@ -96,7 +96,7 @@ function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.8 }}
-              className="absolute bottom-8 left-1/2 -translate-x-1/2"
+              className="absolute bottom-5 left-1/2 hidden -translate-x-1/2 sm:block"
             >
               <motion.div
                 animate={{ y: [0, 8, 0] }}
@@ -110,7 +110,7 @@ function Home() {
         </div>
 
         {/* Stats */}
-        <div className="mx-auto -mt-14 grid max-w-5xl grid-cols-2 gap-3 px-4 sm:-mt-16 sm:gap-4 md:grid-cols-4">
+        <div className="mx-auto mt-3 grid max-w-5xl grid-cols-2 gap-3 sm:-mt-16 sm:gap-4 sm:px-4 md:grid-cols-4">
           <AnimatedStat value={24} suffix="+" label="Communities" />
           <AnimatedStat value={1240} suffix="+" label="Members" />
           <AnimatedStat value={210} suffix="+" label="Events Hosted" />
@@ -120,7 +120,7 @@ function Home() {
 
       {/* FEATURED CLUBS */}
       <section className="mx-auto mt-32 max-w-7xl px-6">
-        <div className="mb-12 flex flex-wrap items-end justify-between gap-6">
+        <div className="mb-10 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-4 sm:mb-12 sm:flex sm:flex-wrap sm:justify-between sm:gap-6">
           <SectionHeading
             eyebrow="Featured Clubs"
             title="Find your tribe"
@@ -172,8 +172,8 @@ function Home() {
                     params={{ slug: e.slug }}
                     className="block rounded-3xl border border-white/10 bg-white/5 p-6 transition-colors hover:bg-white/10"
                   >
-                    <div className="flex items-start justify-between gap-4">
-                      <div>
+                    <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3 sm:gap-4">
+                      <div className="min-w-0">
                         <span className="text-xs font-bold uppercase tracking-widest text-primary">
                           {new Date(e.date).toLocaleDateString("en-ZA", {
                             month: "short",
@@ -184,7 +184,7 @@ function Home() {
                         <h4 className="mt-1 font-display text-lg font-bold sm:text-xl">{e.title}</h4>
                         <p className="mt-1 text-sm text-background/60">{e.location}</p>
                       </div>
-                      <span className="shrink-0 rounded-full bg-white/10 px-3 py-1 text-xs">
+                      <span className="shrink-0 rounded-full bg-white/10 px-2.5 py-1 text-xs sm:px-3">
                         {e.attending} going
                       </span>
                     </div>
